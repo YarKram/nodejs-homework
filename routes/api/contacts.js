@@ -1,7 +1,7 @@
 const express = require("express");
 
 const {
-	getAllContacts,
+	getAllContactsController,
 	getContactByIdController,
 	postContactController,
 	deleteContactByIdController,
@@ -10,7 +10,7 @@ const {
 
 const router = express.Router();
 
-router.get("/", getAllContacts);
+router.get("/", getAllContactsController);
 router.get("/:id", getContactByIdController);
 router.post("/", postContactController);
 router.delete("/:id", deleteContactByIdController);

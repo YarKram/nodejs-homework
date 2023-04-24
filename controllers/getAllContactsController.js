@@ -1,6 +1,6 @@
 const { listContacts } = require("../models/contacts");
 
-const getAllContacts = async (req, res) => {
+const getAllContactsController = async (req, res) => {
 	try {
 		const contacts = await listContacts();
 		res.json({
@@ -15,4 +15,4 @@ const getAllContacts = async (req, res) => {
 	}
 };
 
-module.exports = getAllContacts;
+module.exports = getAllContactsController;
