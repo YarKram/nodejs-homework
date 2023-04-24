@@ -24,6 +24,7 @@ const removeContact = async (contactId) => {
 		(contact) => contact.id !== contactId
 	);
 	await fs.writeFile(contactsPath, JSON.stringify(contactsRemained, null, 2));
+	return contactsRemained;
 };
 
 const addContact = async (body) => {
