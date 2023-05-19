@@ -1,4 +1,4 @@
-const service = require("../../service");
+const service = require("../../service/schemas/contact");
 
 const remove = async (req, res) => {
 	try {

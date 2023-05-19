@@ -6,7 +6,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
 const contactsRouter = require("./routes/api/contacts");
-
+//
+const usersRouter = require("./routes/api/users");
+//
 dotenv.config();
 
 const app = express();
@@ -18,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/contacts", contactsRouter);
+app.use("/users", usersRouter);
 
 app.use((req, res) => {
 	res.status(404).json({

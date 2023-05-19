@@ -1,7 +1,10 @@
-const Contact = require("./schemas/contact");
+const Contact = require("./contact");
 
-const getAllContacts = async () => {
-	return Contact.find();
+const getAllContacts = (pageNum, limitNum, filter) => {
+	limitNum = parseInt(limitNum);
+
+	const startIndex = (pageNum - 1) * limitNum;
+	return Contact.find(filter).skip(startIndex).limit(limitNum);
 };
 
 const getContactById = (id) => {

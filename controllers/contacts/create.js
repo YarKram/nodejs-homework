@@ -8,7 +8,7 @@ const contactSchema = Joi.object({
 		.required(),
 });
 
-const service = require("../../service");
+const service = require("../../service/schemas/contact");
 
 const create = async (req, res) => {
 	try {

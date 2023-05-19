@@ -7,8 +7,7 @@ const contactSchema = Joi.object({
 		.pattern(/^[0-9]{9}$/)
 		.required(),
 });
-
-const service = require("../../service");
+const service = require("../../service/schemas/contact");
 
 const update = async (req, res) => {
 	try {
