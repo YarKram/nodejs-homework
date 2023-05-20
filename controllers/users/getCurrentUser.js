@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
-const User = require("../../service/schemas/user/user");
-require("dotenv").config();
+const service = require("../../service/schemas/user");
 
-// const service = require("../../service/schemas/user");
+require("dotenv").config();
 
 const { SECRET_KEY } = process.env;
 
@@ -16,7 +15,7 @@ const getCurrentUser = async (req, res) => {
 	const bearerToken = token.split(" ")[1];
 	const { id } = jwt.verify(bearerToken, SECRET_KEY);
 
-	const userToFind = await User.findById(id);
+	const userToFind = await service.getById(id);
 
 	if (!userToFind) {
 		return res.status(401).json({ message: "Not authorized" });

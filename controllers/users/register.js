@@ -1,6 +1,7 @@
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const User = require("../../service/schemas/user/user");
+const service = require("../../service/schemas/user");
 
 const schema = Joi.object({
 	email: Joi.string().email().required(),
@@ -14,7 +15,7 @@ const register = async (req, res) => {
 	} else {
 		const { email, password } = value;
 		try {
-			const existingUser = await User.findOne({ email });
+			const existingUser = await service.getByEmail({ email });
 			if (existingUser) {
 				res.status(409).json({ message: "Email in use" });
 			} else {

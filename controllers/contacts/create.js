@@ -11,18 +11,18 @@ const contactSchema = Joi.object({
 const service = require("../../service/schemas/contact");
 
 const create = async (req, res) => {
+	const { id: owner } = req.user;
+
 	try {
 		const { error, value } = contactSchema.validate(req.body);
 		if (error) {
 			return res.status(400).json({ message: error.details[0].message });
 		}
 
-		service.createContact(value);
+		service.createContact({ ...value, owner });
 
 		res.status(201).json({
-			status: "success",
-			code: 201,
-			data: value,
+			data: { ...value, owner },
 		});
 	} catch (error) {
 		console.log(error);

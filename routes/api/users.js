@@ -10,5 +10,6 @@ router.post("/register", ctrlUser.register);
 router.post("/login", ctrlUser.login);
 router.post("/logout", authMiddleware, ctrlUser.logout);
 router.get("/current", authMiddleware, ctrlUser.getCurrentUser);
+router.patch("/:id", authMiddleware, ctrlUser.updateSubscription);
 
 module.exports = router;

@@ -1,10 +1,9 @@
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
-const User = require("../../service/schemas/user/user");
+const service = require("../../service/schemas/user");
+
 require("dotenv").config();
 const { SECRET_KEY } = process.env;
-
-// const service = require("../../service/schemas/user");
 
 const schema = Joi.object({
 	email: Joi.string().email().required(),
@@ -19,7 +18,7 @@ const login = async (req, res) => {
 	}
 	const { email } = req.body;
 
-	const user = await User.findOne({ email });
+	const user = await service.getByEmail({ email });
 	if (!user) {
 		res.status(401).json({ message: "Email or password is incorrect" });
 		return;

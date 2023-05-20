@@ -1,8 +1,8 @@
-const User = require("../../service/schemas/user/user");
+const service = require("../../service/schemas/user");
 
 const logout = async (req, res) => {
 	try {
-		const user = await User.findById(req.user._id);
+		const user = await service.getById(req.user._id);
 
 		if (!user) {
 			res.status(401).json({ message: "Not authorized" });
