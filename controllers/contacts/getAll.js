@@ -16,7 +16,7 @@ const getAll = async (req, res) => {
 			owner,
 		});
 		res.status(200).json({
-			data: contacts[0],
+			data: contacts,
 		});
 	} catch (error) {
 		console.log(error);
