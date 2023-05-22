@@ -2,6 +2,7 @@ const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const User = require("../../service/schemas/user/user");
 const service = require("../../service/schemas/user");
+const gravatar = require("gravatar");
 
 const schema = Joi.object({
 	email: Joi.string().email().required(),
@@ -21,7 +22,14 @@ const register = async (req, res) => {
 			} else {
 				const saltRounds = 10;
 				const hashedPassword = await bcrypt.hash(password, saltRounds);
-				const newUser = new User({ email, password: hashedPassword });
+
+				const avatarURL = gravatar.url(email);
+
+				const newUser = new User({
+					email,
+					password: hashedPassword,
+					avatarURL,
+				});
 				await newUser.save();
 				res.status(201).json({ user: newUser });
 			}

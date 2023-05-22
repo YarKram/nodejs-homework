@@ -17,4 +17,13 @@ const updateUserSubscription = (id, { subscription }) => {
 	return updatedUser;
 };
 
-module.exports = { getById, getByEmail, updateUserSubscription };
+const updateUserAvatar = (id, { avatarURL }) => {
+	return User.findByIdAndUpdate(id, { avatarURL });
+};
+
+module.exports = {
+	getById,
+	getByEmail,
+	updateUserSubscription,
+	updateUserAvatar,
+};
