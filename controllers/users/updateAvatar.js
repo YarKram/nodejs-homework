@@ -3,7 +3,7 @@ const fs = require("fs/promises");
 const service = require("../../service/schemas/user");
 const jimp = require("jimp");
 
-const avatarsDir = path.join(__dirname, "../../", "public", "avatars");
+const avatarsDir = path.join(__dirname, "../../public/avatars");
 
 const updateAvatar = async (req, res) => {
 	try {
@@ -13,22 +13,24 @@ const updateAvatar = async (req, res) => {
 			return;
 		}
 		const { path: tempUpload, originalname } = req.file;
+
 		const filename = `${_id}_${originalname}`;
 		const resultUpload = path.join(avatarsDir, filename);
 
-		await jimp.read(tempUpload).then((avatar) => {
-			return avatar.resize(250, 250).write(tempUpload);
-		});
+		await jimp
+			.read(tempUpload)
+			.then((avatar) => avatar.resize(250, 250).write(tempUpload));
 
 		await fs.rename(tempUpload, resultUpload);
 
-		const avatarURL = path.join("avatars", filename);
+		const avatarURL = path.join("/", "avatars", filename);
 		await service.updateUserAvatar(_id, { avatarURL });
 
 		res.status(200).json({
 			avatarURL,
 		});
 	} catch (error) {
+		console.log(error);
 		res.status(401).json({ message: "Not authorized" });
 	}
 };
