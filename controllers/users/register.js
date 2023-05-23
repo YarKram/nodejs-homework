@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 const User = require("../../service/schemas/user/user");
 const service = require("../../service/schemas/user");
 const gravatar = require("gravatar");
+const { nanoid } = require("nanoid");
+const { sendEmail } = require("../../helpers");
+const { BASE_URL } = process.env;
 
 const schema = Joi.object({
 	email: Joi.string().email().required(),
@@ -25,13 +28,28 @@ const register = async (req, res) => {
 
 				const avatarURL = gravatar.url(email);
 
+				const verificationToken = nanoid();
+
 				const newUser = new User({
 					email,
 					password: hashedPassword,
 					avatarURL,
+					verificationToken,
 				});
+
+				const verifyEmail = {
+					to: email,
+					subject: "Verify email",
+					html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationToken}">Click here to verify email</a>`,
+				};
+
+				await sendEmail(verifyEmail);
+
 				await newUser.save();
-				res.status(201).json({ user: newUser });
+
+				res
+					.status(201)
+					.json({ email: newUser.email, password: newUser.password });
 			}
 		} catch (err) {
 			res.status(500).json({ error: err.message });

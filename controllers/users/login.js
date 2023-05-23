@@ -19,12 +19,19 @@ const login = async (req, res) => {
 	const { email } = req.body;
 
 	const user = await service.getByEmail({ email });
+
 	if (!user) {
 		res.status(401).json({ message: "Email or password is incorrect" });
 		return;
 	}
+
+	if (!user.verify) {
+		res.status(404).json({ message: "User not found" });
+	}
+
 	const payload = { id: user._id, email };
 	const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1d" });
+
 	res.status(200).json({
 		token,
 	});
